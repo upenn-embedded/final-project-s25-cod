@@ -44,12 +44,12 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **5.2 Functionality**
 
-| ID     | Description                                                                                                                                                                                                              |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds                                                                                                                 |
-| SRS-02 | The distance sensor shall operate and report values at least every .5 seconds.                                                                                                                                           |
-| SRS-03 | Upon non-nominal distance detected (i.e., the trap mechanism has changed at least 10 cm from the nominal range), the system shall be able to detect the change and alert the user in a timely manner (within 5 seconds). |
-| SRS-04 | Upon a request from the user, the system shall get an image from the internal camera and upload the image to the user system within 10s.                                                                                 |
+| ID     | Description |
+| ------ | ----------- |
+| SRS-01 |             |
+| SRS-02 |             |
+| SRS-03 |             |
+| SRS-04 |             |
 
 ### 6. Hardware Requirements Specification (HRS)
 
@@ -86,12 +86,12 @@ We plan to demonstrate our self-balancing robot on a tabletop or smooth indoor s
 
 *You've got limited time to get this project done! How will you plan your sprint milestones? How will you distribute the work within your team? Review the schedule in the final project manual for exact dates.*
 
-| Milestone  | Functionality Achieved | Distribution of Work |
-| ---------- | ---------------------- | -------------------- |
-| Sprint #1  |                        |                      |
-| Sprint #2  |                        |                      |
-| MVP Demo   |                        |                      |
-| Final Demo |                        |                      |
+| Milestone  | Functionality Achieved                                                                                                                                                                               | Distribution of Work                                                                                     |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Sprint #1  | - CAD complete<br />- Parts (mostly) arrived<br />- Solid understanding of all sensors, devices                                                                                                    | CAD: Cynthia, Dylan<br />Parts Research: All                                                             |
+| Sprint #2  | - Mechanical elements machined and ready to assemble<br />- All sensors working independently with some logic implemented                                                                            | Machining: Oscar<br />Sensor Work: 1-2 per member (independent)                                          |
+| MVP Demo   | - Final structure fully assembled<br />- Demonstration of driving to some extent                                                                                                                    | Assembly: Cynthia                                                                                        |
+| Final Demo | - Demonstration of driving with balancing (sensor values tuned)<br />- Obstacle detection implemented<br />- Ability to drive on non-flat surface implemented<br />- Wiring on perf boards completed | At this point, we'll work together collectively<br />and tie up loose ends/debug the final<br />product. |
 
 **This is the end of the Project Proposal section. The remaining sections will be filled out based on the milestone schedule.**
 
