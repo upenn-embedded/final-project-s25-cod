@@ -46,12 +46,12 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **5.2 Functionality**
 
-| ID     | Description |
-| ------ | ----------- |
-| SRS-01 |             |
-| SRS-02 |             |
-| SRS-03 |             |
-| SRS-04 |             |
+| ID     | Description                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SRS-01 | The IMU should be able to read the gyroscope and accelerometer data, and as a peripheral, send the information via I2C to the MCU. This functionality can be tested using the logic analyzer, as the IMU I2C data can be probed using a breadboard. We can also verify that the MCU is able to read and use the data by writing to a serial monitor using the MCU, and seeing that the data is correct and accurate.                     |
+| SRS-02 | We are using a PID control algorithm to keep our robot stable. This will be harder to test until the final robot is assembled, but we can do some functionality testing by inputting values to our algorithm and seeing how the feedback loop responds.                                                                                                                                                                                  |
+| SRS-03 | The motor controller can be tested because it will be outputting a PWM signal to control the DC motors. We can test this functionality by configuring to write different speeds or control signals to the DC motor and seeing how it responds. We can also test that the motor controller receives the right signal by probing it from the MCU output.                                                                                   |
+| SRS-04 | Timers, feedback, interrupts: we will be configuring a pid control loop which will require a lot of accurate timing, calculations, and measurements, so it will be necessary to make sure that the data being stored isn't lost and we are using the proper timers to allow our robot to function properly. This will ultimately be tested to see if our feedback loop is able to spin the wheels properlya ccording to the IMU input.  |
 
 ### 6. Hardware Requirements Specification (HRS)
 
@@ -61,18 +61,19 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **6.1 Definitions, Abbreviations**
 
-Here, you will define any special terms, acronyms, or abbreviations you plan to use for hardware
+MCU - microcontroller unit
+
+IMU - inertial measurement unit
 
 **6.2 Functionality**
 
-| ID     | Description                                                                                                                        |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| HRS-01 | A distance sensor shall be used for obstacle detection. The sensor shall detect obstacles at a maximum distance of at least 10 cm. |
-| HRS-02 | A noisemaker shall be inside the trap with a strength of at least 55 dB.                                                           |
-| HRS-03 | An electronic motor shall be used to reset the trap remotely and have a torque of 40 Nm in order to reset the trap mechanism.      |
-| HRS-04 | A camera sensor shall be used to capture images of the trap interior. The resolution shall be at least 480p.                       |
-
-### 7. Bill of Materials (BOM)
+| ID     | Description                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HRS-01 | The MCU should be able to accurately read inputs and send proper outputs in the right time frame. The inputs involve measurements from our IMU, and the outputs involve interfacing with our motor driver. Given these inputs and outputs, the MCU has to process everything quickly enough to keep the robot upright. The final way to test this functionality will be when all components are assembled with the robot.  |
+| HRS-02 | The IMU shall provide accurate accelerometer and gyroscope data. This can be measured during testing by connecting the IMU to the MCU, moving the sensor around and seeing if the right measurements are being read and that they are also being received by the MCU.                                                                                                                                                       |
+| HRS-03 | The motor driver shall be able to properly receive input signals from the MCU and send the right amount of torque to the motors. If done incorrectly, the robot will not be able to self-balance. This can be tested in conjunction with the MCU, motor driver, and motors to see if the MCU is able to control the motor speed through the driver.                                                                         |
+| HRS-04 | The motors shall be able to accurately and precisely respond to input and output the right amount of torque or move the robot forwards and backwards the right amount. This can be tested off the bench by testing if the motor driver can drive the motors under different conditions, and using it to tune our code.7. Bill of Materials (BOM)                                                                            |
+| HRS-05 | The boost converter will be used to step up the battery voltage to 5V which will be used to power the other components which require 5V of input power. This can be tested on the bench by inputting the battery voltage using the power supply and measuring the output of the boost converter.                                                                                                                            |
 
 *What major components do you need and why? Try to be as specific as possible. Your Hardware & Software Requirements Specifications should inform your component choices.*
 
