@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include "uart.h"
 
 #define SCL_CLOCK 400000UL
 
@@ -12,7 +13,9 @@ void I2C_init() {
 
 void I2C_start() {
     TWCR0 = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
+    printf("start!\n");
     while (!(TWCR0 & (1 << TWINT)));
+    printf("finish?\n");
 }
 
 void I2C_repStart() {

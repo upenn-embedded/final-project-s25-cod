@@ -8,15 +8,13 @@
 #include <util/delay.h>
 #include "i2c.h"
 #include "imu.h"
-#include "i2c.c"
-#include "imu.c"
-
+#include "uart.h"
 
 /*
  * main function 
  */
 int main() {
-    I2C_init(1);  //Initialize I2C, input 0 used to ignore the ERROR() function
+    uart_init();
     cli();
     IMU_init(ADDRESS); //initialize imu using the found I2C address from the 
                        // previous task
@@ -24,10 +22,12 @@ int main() {
     
     _delay_ms(500);
     
-    IMU_getAll();
-    //Initialization
-    
-    while(1);
+    while(1) {
+        printf("XGyro: %d\n", (int) IMU_getXGyro());
+        printf("YGyro: %d\n", (int) IMU_getYGyro());
+        printf("ZGyro: %d\n", (int) IMU_getZGyro());
+        _delay_ms(1000);
+    }
     
     return 0;
 }
