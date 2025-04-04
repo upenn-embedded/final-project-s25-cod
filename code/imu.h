@@ -15,21 +15,21 @@
 
 void IMU_init(uint8_t addr);
 
-void IMU_getAll();
+void IMU_getAll(int16_t *accel, int16_t *gyro, int16_t *temp);
 
-void IMU_getXAcc();
+int16_t IMU_getXAcc();
 
-void IMU_getYAcc();
+int16_t IMU_getYAcc();
 
-void IMU_getZAcc();
+int16_t IMU_getZAcc();
 
-void IMU_getXGyro();
+int16_t IMU_getXGyro();
 
-void IMU_getYGyro();
+int16_t IMU_getYGyro();
 
-void IMU_getZGyro();
+int16_t IMU_getZGyro();
 
-void IMU_getTemp();
+int16_t IMU_getTemp();
 
 int IMU_checkNewData();
 
