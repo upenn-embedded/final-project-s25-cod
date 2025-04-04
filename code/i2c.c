@@ -1,21 +1,34 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/twi.h>
 #include <util/delay.h>
 #include "uart.h"
 
 #define SCL_CLOCK 400000UL
 
+volatile int startCount = 0;
+
 void I2C_init() {
-    TWSR0 = 0x00; // Prescaler = 1
-    TWBR0 = ((F_CPU/SCL_CLOCK)-16)/2; // Bit rate
-    TWCR0 = (1 << TWEN); // Enable TWI
+    TWSR0 &= ~((1 << TWPS0) | (1 << TWPS1)); // Prescaler = 1
+    TWBR0 = ((F_CPU / SCL_CLOCK) - 16) / 2;
+    TWCR0 |= (1 << TWEN) | (1 << TWEA) | (1 << TWIE); // Enable TWI
+}
+
+void ERROR() {
+    printf("ERROR!");
+    while(1) {
+        
+    }
 }
 
 void I2C_start() {
     TWCR0 = (1 << TWINT) | (1 << TWSTA) | (1 << TWEN);
-    printf("start!\n");
     while (!(TWCR0 & (1 << TWINT)));
-    printf("finish?\n");
+    if ((TWSR0 & 0xF8) != TW_START) {
+        ERROR();
+    }
+    startCount++;
+    //printf("Started: %d\n", startCount);
 }
 
 void I2C_repStart() {
@@ -36,6 +49,7 @@ void I2C_writeBegin(uint8_t addr) {
 
 void I2C_readBegin(uint8_t addr) {
     I2C_start();
+    printf("read start done\n");
     TWDR0 = (addr << 1) | 1; // Read mode
     TWCR0 = (1 << TWINT) | (1 << TWEN);
     while (!(TWCR0 & (1 << TWINT)));
@@ -56,11 +70,13 @@ void I2C_writeRegister(uint8_t addr, uint8_t data, uint8_t reg) {
 
 void I2C_readRegister(uint8_t addr, uint8_t* data_addr, uint8_t reg) {
     I2C_writeBegin(addr);
+    printf("write begin done\n");
     TWDR0 = reg;
     TWCR0 = (1 << TWINT) | (1 << TWEN);
     while (!(TWCR0 & (1 << TWINT)));
-
+    printf("wait done\n");
     I2C_readBegin(addr);
+    printf("read begin done\n");
     TWCR0 = (1 << TWINT) | (1 << TWEN); // NACK
     while (!(TWCR0 & (1 << TWINT)));
     *data_addr = TWDR0;
@@ -104,6 +120,7 @@ void I2C_writeCompleteStream(uint8_t *dataArrPtr, uint8_t *addrArrPtr, int len, 
 
 void I2C_readCompleteStream(uint8_t* dataArrPtr, uint8_t addr, uint8_t reg, int len) {
     I2C_writeBegin(addr);
+    printf("writebegin done\n");
     TWDR0 = reg;
     TWCR0 = (1 << TWINT) | (1 << TWEN);
     while (!(TWCR0 & (1 << TWINT)));
@@ -111,10 +128,4 @@ void I2C_readCompleteStream(uint8_t* dataArrPtr, uint8_t addr, uint8_t reg, int 
     I2C_readBegin(addr);
     I2C_readStream(dataArrPtr, len);
     I2C_stop();
-}
-
-void ERROR() {
-    while (1) {
-        // Loop forever or blink LED to indicate error
-    }
 }
