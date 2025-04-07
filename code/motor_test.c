@@ -58,7 +58,7 @@ void driveMotor(int16_t lSpeed, int16_t rSpeed) {
         OCR0A = lSpeed;
     } else {
         PORTD |= (1 << L_MOTOR_DIR);
-        OCR0A = -lSpeed;
+        OCR0A = lSpeed + 255;
     }
     
     if (rSpeed >= 0) {
@@ -66,7 +66,7 @@ void driveMotor(int16_t lSpeed, int16_t rSpeed) {
         OCR0B = rSpeed;
     } else {
         PORTD |= (1 << R_MOTOR_DIR);
-        OCR0B = -rSpeed;
+        OCR0B = rSpeed + 255;
     }
 }
 
