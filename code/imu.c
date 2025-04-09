@@ -23,7 +23,10 @@
 #define IMU_REG_OUTY_G   0x24
 #define IMU_REG_OUTZ_G   0x26
 
-#define IMU_REG_OUTX_L_XL 0x28
+#define IMU_REG_OUTX_A 0x28
+#define IMU_REG_OUTY_A 0x2A
+#define IMU_REG_OUTZ_A 0x2C
+
 
 volatile uint8_t imu_addr;
 
@@ -36,7 +39,7 @@ void IMU_init(uint8_t addr) {
     I2C_writeRegister(imu_addr, 0x40, IMU_REG_CTRL1_XL); //0100 00 0 0 104Hz 2g low-res
     // Gyroscope: 119 Hz, 245 dps
     I2C_writeRegister(imu_addr, 0x40, IMU_REG_CTRL2_G); //0100 00 0 0
-    I2C_writeRegister(imu_addr, 0x40, IMU_REG_CTRL3_C);
+    I2C_writeRegister(imu_addr, 0x04, IMU_REG_CTRL3_C); //auto increment doesnt work?
     I2C_writeRegister(imu_addr, 0x00, IMU_REG_CTRL4_C);
     I2C_writeRegister(imu_addr, 0x00, IMU_REG_CTRL5_C);
     I2C_writeRegister(imu_addr, 0x00, IMU_REG_CTRL6_C);
@@ -51,7 +54,7 @@ void IMU_getAll(int16_t *accel, int16_t *gyro, int16_t *temp) {
     uint8_t data[14];
 
     // Read Accel (6 bytes), Temp (2 bytes), Gyro (6 bytes)
-    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTX_L_XL, 14);
+    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTX_G, 14);
 
     for (int i = 0; i < 3; i++) {
         accel[i] = (int16_t)(data[i*2+1] << 8 | data[i*2]);
@@ -63,28 +66,25 @@ void IMU_getAll(int16_t *accel, int16_t *gyro, int16_t *temp) {
 
 int16_t IMU_getXAcc() {
     uint8_t data[2];
-    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTX_G, 2);
+    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTX_A, 2);
     return (int16_t)(data[1] << 8 | data[0]);
 }
 
 int16_t IMU_getYAcc() {
     uint8_t data[2];
-    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTY_G, 2);
+    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTY_A, 2);
     return (int16_t)(data[1] << 8 | data[0]);
 }
 
 int16_t IMU_getZAcc() {
     uint8_t data[2];
-    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTZ_G, 2);
+    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTZ_A, 2);
     return (int16_t)(data[1] << 8 | data[0]);
 }
 
 int16_t IMU_getXGyro() {
     uint8_t data[2];
-    I2C_readRegister(imu_addr, data, IMU_REG_OUTX_G);
-    I2C_readRegister(imu_addr, data + 1, IMU_REG_OUTX_G);
-    
-    //I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTX_G, 2);
+    I2C_readCompleteStream(data, imu_addr, IMU_REG_OUTX_G, 2);
     return (int16_t)(data[1] << 8 | data[0]);
 }
 
