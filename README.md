@@ -105,9 +105,11 @@ Last week, we discussed and made changes to our parts list based on different me
 
 We've been trying to get I2C working/read measurements from the IMU; we've written I2C functions but haven't gotten them fully working, and we are in the process of debugging. Code has been pushed to repo (IMU.c). Our main goal right now is to get this working. We've tested the battery with the boost converter modules and have successfully used them to power the ATMega, as well as the motor driver and motors. Since our motors haven't arrived, we instead used the 5V DC motors available in Detkin. We've successfully written code that allows us to control the direction/speed of both motors so that we can quickly/easily get everything working once our actual parts arrive. The code is in our repo (motor_test.c).
 
+https://drive.google.com/file/d/1DAIQHN51U2KRT4EcmfAQaR75gM1CxgT3/view?usp=drivesdk 
+
 ### Next week's plan
 
-Resolve I2C issues and be able to read measurements from IMU. 
+Resolve I2C issues and be able to read measurements from IMU.
 
 Once the motors/brackets and wheels arrive, assemble them and try powering them with the battery and boost converter modules. Then, finalize wiring layout amd solder parts on.
 
