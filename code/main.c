@@ -151,10 +151,12 @@ void Initialize() {
 }
 
 int main() {
-    
+    printf("before initialize");
     Initialize();
-    
+    printf("Test 1");
     while (1) {
+        printf("Serial test");
+        calibrate();
         accAngle = getAccAngle(); 
         gyroX = IMU_getXGyro();
         // set motor power after constraining it
