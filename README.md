@@ -105,7 +105,7 @@ Last week, we discussed and made changes to our parts list based on different me
 
 We've been trying to get I2C working/read measurements from the IMU; we've written I2C functions but haven't gotten them fully working, and we are in the process of debugging. Code has been pushed to repo (IMU.c). Our main goal right now is to get this working. We've tested the battery with the boost converter modules and have successfully used them to power the ATMega, as well as the motor driver and motors. Since our motors haven't arrived, we instead used the 5V DC motors available in Detkin. We've successfully written code that allows us to control the direction/speed of both motors so that we can quickly/easily get everything working once our actual parts arrive. The code is in our repo (motor_test.c).
 
-https://drive.google.com/file/d/1DAIQHN51U2KRT4EcmfAQaR75gM1CxgT3/view?usp=drivesdk 
+https://drive.google.com/file/d/1DAIQHN51U2KRT4EcmfAQaR75gM1CxgT3/view?usp=drivesdk
 
 ### Next week's plan
 
@@ -119,9 +119,21 @@ Start working on PID control theory and code while other progress is being made.
 
 ### Last week's progress
 
+Last week, we were able test all of our components on the bench, including the boost converter and motor driver. We were able to use the battery to power the boost converter and power all our peripherals, including the motor drivers and ATMega itself. We setup a joystick for bench testing the motor write code that we wrote to be able to manually control the motors, and we were able to figure out how to control the motor speed and direction from doing this. We were also working on getting the i2c implementation working so that we could communicate with the IMU.
+
 ### Current state of project
 
+![1744389096614](image/README/1744389096614.png)
+
+![1744389076144](image/README/1744389076144.png)
+
+This week, we worked on assembling the project and soldering our components onto the perf boards as they will be for the final project. We were able to get the 2 boost converters and IMU soldered on. We also added headers on the back for where the ATMega will go, and made the connections for the 4 IMU pins. We were also able to get the i2c with the IMU working and reading live gyroscope and accelerometer data, which is demonstrated and explained in the video below. We also integrated the IMU code with the motor write function and setup the PID control loop in the software. We also found motors and wheels in Detkin which we will test and use for the final project, since our digikey order was delayed. 
+
+https://drive.google.com/file/d/1rzPbjwEgyIbL_z1C5IFgU66bXO9Zooof/view?usp=sharing
+
 ### Next week's plan
+
+Next week, we will work on integrating all of the components. This includes using the IMU data to send controls to our motor and request different speeds based off of the positioning and movement of the IMU. We ordered motor brackets, and once those come we will have all the components needed to finalize assembly of our project. We will also work on soldering connections to the motor controller, battery, and motors themselves. 
 
 ## MVP Demo
 
