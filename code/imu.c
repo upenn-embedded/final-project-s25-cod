@@ -42,6 +42,7 @@ void IMU_init(uint8_t addr) {
     imu_addr = addr;
     
     I2C_writeRegister(imu_addr, 0x00, IMU_REG_FIFO_CTRL4);
+    printf("1st write works\n");
 
     // Accelerometer: 119 Hz, ±2g, 50 Hz bandwidth
     I2C_writeRegister(imu_addr, 0x40, IMU_REG_CTRL1_XL); //0100 00 0 0 104Hz 2g low-res
