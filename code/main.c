@@ -195,11 +195,13 @@ void Initialize() {
 }
 
 int main() {
-    
+    printf("before initialize");
     Initialize();
     printf("Initialize Done\n");
     
     while (1) {
+        printf("Serial test");
+        calibrate();
         accAngle = getAccAngle(); 
         gyroAngle = getGyroAngle();
         
