@@ -19,7 +19,7 @@
 #define SAMPLE_TIME 0.005
 #define TARGET_ANGLE 0.0
 
-#define Kp  2
+#define Kp  10
 #define Kd  0
 #define Ki  0
 
@@ -52,8 +52,8 @@ volatile uint32_t millis_counter = 0;
 volatile float gyroAngle=0;
 volatile unsigned long currTime, prevTime=0, loopTime;
 
-volatile int motorPower, gyroRate, gyroX;
-volatile float accAngle, gyroAngle, currentAngle, prevAngle=0, error, prevError=0, errorSum=0;
+volatile int motorPower, gyroX;
+volatile float accAngle, gyroRate, gyroAngle, currentAngle, prevAngle=0, error, prevError=0, errorSum=0;
 
 
 // used to set the offsets for each of the 6 axes
@@ -104,8 +104,9 @@ float getAccAngle() {
     float angle = atan2(yacc, zacc) * (180 / M_PI);
     if (angle > 90) {
         angle -= 180;
+    } else if (angle < -90) {
+        angle += 180;
     }
-
     return angle;
 }
 
@@ -250,9 +251,12 @@ ISR(TIMER1_COMPA_vect) {
     //calculate output from P, I and D values
     motorPower = Kp*(error) + Ki*(errorSum)*SAMPLE_TIME - Kd*(currentAngle-prevAngle)/SAMPLE_TIME;
     if (count > 500) {
-        printf("Motor Power: %d\n", -motorPower);
-        printf("Current angle: %.2f\n", currentAngle - prevAngle);
-        printf("Error: %.2f\n", error);
+        printf("Motor Power: %d     ", -motorPower);
+        printf("Error: %.2f     ", error);
+        printf("Gyro Angle: %.5f    ", gyroAngle);
+        printf("Gyro Rate: %.2f     ", gyroRate);
+        printf("Gyro X: %d      ", gyroX);
+        printf("Acc Angle: %.2f\n", accAngle);
         count = 0;
     }
     prevAngle = currentAngle;
