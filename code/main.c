@@ -19,18 +19,21 @@
 #define SAMPLE_TIME 0.005
 #define TARGET_ANGLE 0.0
 
-#define Kp  5
-#define Kd  0.01
-#define Ki  5
+#define Kp  2
+#define Kd  0
+#define Ki  0
 
 // Motor A Pins (Timer0)
-#define L_MOTOR_DIR PD3 // High is forward, low is backward
-#define L_MOTOR_PWM PD6 // OC0A
+//#define L_MOTOR_DIR PD3 // High is forward, low is backward
+//#define L_MOTOR_PWM PD6 // OC0A
 #define SLEEP PD4       // Sleep control (write high to enable motor driver)
+//
+//// Motor B Pins (Timer0)
+//#define R_MOTOR_DIR PD2      
+//#define R_MOTOR_PWM PD5 // 0C0B
 
-// Motor B Pins (Timer0)
-#define R_MOTOR_DIR PD2      
-#define R_MOTOR_PWM PD5 // 0C0B
+#define PWM_1 PD5
+#define PWM_2 PD6
 /*
  * main function 
  */
@@ -52,6 +55,8 @@ volatile unsigned long currTime, prevTime=0, loopTime;
 volatile int motorPower, gyroRate, gyroX;
 volatile float accAngle, gyroAngle, currentAngle, prevAngle=0, error, prevError=0, errorSum=0;
 
+
+// used to set the offsets for each of the 6 axes
 void calibrate() {
     for (int j = 0; j < 5; j++) {
         for (int i = 0; i < 200; i++) {
@@ -90,6 +95,8 @@ void calibrate() {
     }
 }
 
+//get angle of inclination based off of y and z axis accelerometer 
+//subject to distortion by sudden movements
 float getAccAngle() {
     float yacc = (int) (IMU_getYAcc()) * 2 / 32768.0;
     float zacc = (int) (IMU_getZAcc()) * 2 / 32768.0;
@@ -102,6 +109,8 @@ float getAccAngle() {
     return angle;
 }
 
+//get angle of inclination based off x axis gyroscope
+//subject to drift over time
 double getGyroAngle() { //must call once at the beginning to initialize
     currTime = millis_counter;
     if ((int) currTime < (int) prevTime) {
@@ -116,6 +125,7 @@ double getGyroAngle() { //must call once at the beginning to initialize
     
 }
 
+//sets timer 1 to count milliseconds (for testing)
 void init_millis_timer() {
     cli();
     TCCR1A |= (1<<COM1A1);
@@ -130,6 +140,7 @@ void init_millis_timer() {
     sei();                      // Enable global interrupts
 }
 
+//sets timer 1 to count 5ms (for actual operation)
 void init_200hz_timer() {
     cli();
     TCCR1A |= (1<<COM1A1);
@@ -143,11 +154,12 @@ void init_200hz_timer() {
     sei();   
 }
 
+//initializes motor
 void motor_init() {
     cli();
     // Set PWM outputs and direction pins as outputs
-    DDRD |= (1 << R_MOTOR_PWM) | (1 << L_MOTOR_PWM) | (1 << R_MOTOR_DIR) | (1 << L_MOTOR_DIR) | (1 << SLEEP);
-
+    //DDRD |= (1 << R_MOTOR_PWM) | (1 << L_MOTOR_PWM) | (1 << R_MOTOR_DIR) | (1 << L_MOTOR_DIR) | (1 << SLEEP);
+    DDRD |= (1 << PWM_1) | (1 << PWM_2) | (1 << SLEEP);
     // Wake up DRV8833
     PORTD |= (1 << SLEEP);
 
@@ -176,34 +188,27 @@ void motor_init() {
 
 void Initialize() {
     uart_init();
-    printf("UART works\n");
     cli();
     I2C_init();
     sei();
-    printf("I2C works\n");
     
     //init_millis_timer();
     init_200hz_timer();
-    printf("Timer works\n");
     motor_init();
-    printf("Motor done\n");
     
     IMU_init(ADDRESS); //initialize imu using the found I2C address from the 
                        // previous task
-    printf("IMU done\n");
-    getGyroAngle();
+    //getGyroAngle(); //have to initialize 
 }
 
 int main() {
-    printf("before initialize");
+    
     Initialize();
     printf("Initialize Done\n");
     
     while (1) {
-        printf("Serial test");
-        calibrate();
         accAngle = getAccAngle(); 
-        gyroAngle = getGyroAngle();
+        //gyroAngle = getGyroAngle();
         
 //        if (count > 1000) {
 //            printf("Acceleration Angle: %.2f\n", accAngle);
@@ -213,13 +218,9 @@ int main() {
         
         gyroX = IMU_getXGyro();
         //set motor power after constraining it
-        driveMotor(motorPower, motorPower);
-        
+        //driveMotor(motorPower, -motorPower);
+        driveMotor(motorPower);
         //measure distance every 100 milliseconds
-        if (count > 100) {
-            printf("Motor Power: %d\n", motorPower);
-            count = 0;
-        }
     }
     
     return 0;
@@ -248,6 +249,12 @@ ISR(TIMER1_COMPA_vect) {
     }
     //calculate output from P, I and D values
     motorPower = Kp*(error) + Ki*(errorSum)*SAMPLE_TIME - Kd*(currentAngle-prevAngle)/SAMPLE_TIME;
+    if (count > 500) {
+        printf("Motor Power: %d\n", -motorPower);
+        printf("Current angle: %.2f\n", currentAngle - prevAngle);
+        printf("Error: %.2f\n", error);
+        count = 0;
+    }
     prevAngle = currentAngle;
     count++;
 }

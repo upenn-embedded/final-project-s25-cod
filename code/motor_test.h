@@ -5,6 +5,6 @@
 
 void motor_init();
 
-void driveMotor(int16_t lSpeed, int16_t rSpeed);
+void driveMotor(int16_t speed);
 
 #endif
