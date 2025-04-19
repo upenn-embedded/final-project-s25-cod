@@ -123,19 +123,19 @@ Last week, we were able test all of our components on the bench, including the b
 
 ### Current state of project
 
-Soldering pictures: 
+Soldering pictures:
 
-https://drive.google.com/file/d/1qv2tJNrHfBzT0hoYlVjhQMh3msRlv7WM/view?usp=sharing 
+https://drive.google.com/file/d/1qv2tJNrHfBzT0hoYlVjhQMh3msRlv7WM/view?usp=sharing
 
-https://drive.google.com/file/d/1vxXT_8W5q34-TZ-F9qv-Aa3cUUcJt_Dk/view?usp=sharing 
+https://drive.google.com/file/d/1vxXT_8W5q34-TZ-F9qv-Aa3cUUcJt_Dk/view?usp=sharing
 
-This week, we worked on assembling the project and soldering our components onto the perf boards as they will be for the final project. We were able to get the 2 boost converters and IMU soldered on. We also added headers on the back for where the ATMega will go, and made the connections for the 4 IMU pins. We were also able to get the i2c with the IMU working and reading live gyroscope and accelerometer data, which is demonstrated and explained in the video below. We also integrated the IMU code with the motor write function and setup the PID control loop in the software. We also found motors and wheels in Detkin which we will test and use for the final project, since our digikey order was delayed. 
+This week, we worked on assembling the project and soldering our components onto the perf boards as they will be for the final project. We were able to get the 2 boost converters and IMU soldered on. We also added headers on the back for where the ATMega will go, and made the connections for the 4 IMU pins. We were also able to get the i2c with the IMU working and reading live gyroscope and accelerometer data, which is demonstrated and explained in the video below. We also integrated the IMU code with the motor write function and setup the PID control loop in the software. We also found motors and wheels in Detkin which we will test and use for the final project, since our digikey order was delayed.
 
 https://drive.google.com/file/d/1rzPbjwEgyIbL_z1C5IFgU66bXO9Zooof/view?usp=sharing
 
 ### Next week's plan
 
-Next week, we will work on integrating all of the components. This includes using the IMU data to send controls to our motor and request different speeds based off of the positioning and movement of the IMU. We ordered motor brackets, and once those come we will have all the components needed to finalize assembly of our project. We will also work on soldering connections to the motor controller, battery, and motors themselves. 
+Next week, we will work on integrating all of the components. This includes using the IMU data to send controls to our motor and request different speeds based off of the positioning and movement of the IMU. We ordered motor brackets, and once those come we will have all the components needed to finalize assembly of our project. We will also work on soldering connections to the motor controller, battery, and motors themselves.
 
 ## MVP Demo
 
@@ -153,6 +153,8 @@ Next week, we will work on integrating all of the components. This includes usin
 
    1. How do you plan to de-risk this?
 8. What questions or help do you need from the teaching team?
+
+![1745028090634](image/README/1745028090634.png)
 
 ## Final Project Report
 
