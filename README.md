@@ -141,11 +141,12 @@ Next week, we will work on integrating all of the components. This includes usin
 
 1. Show a system block diagram & explain the hardware implementation.
    ![1745028090634](image/README/1745028090634.png)
-Our robot is powered by a LiFePO4 battery which we input to 2 boost converter modules. One module powers the ATMega328PB and the other provides power for the motor driver, which drives both the left and right motor. The IMU is powered by the AMMega328PB. 
-   
+   Our robot is powered by a LiFePO4 battery which we input to 2 boost converter modules. One module powers the ATMega328PB and the other provides power for the motor driver, which drives both the left and right motor. The IMU is powered by the AMMega328PB.
 2. Explain your firmware implementation, including application logic and critical drivers you've written.
 
-Our I2C, IMU, and motor control libraries were explained during the demonstration and are uploaded to the repo. 
+Our I2C, IMU, and motor control libraries were explained during the demonstration and are uploaded to the repo.
+
+We use the IMU to measure the tilt angle of the robot. This is done by computing the angle separately using the acclerometer and gyroscope, then combining the two angles with a complementary filter. The filter consists of a high pass for the gyroscope (since the gyroscope readings drift over time), and a low pass for the accelerometer (since the accelerometer reads are affected by lateral movements). Then, we use the current angle and compare it to the target angle in our PID loop, which determines the power supplied to the motors. We have written code for our I2C communication, IMU (to get data from registers), and our central PID loop, which updates at a rate of 200 Hz. 
 
 3. Demo your device.
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
@@ -158,11 +159,10 @@ SRS-03: We can drive the motors at different speeds and change the direction of 
 
 SRS-04: Our PID control loop was successfully implemented using timers, feedbacks, and interrupts, and we can see the movement of the wheels adjusting based on the physical angling of the gyroscope.
 
-   1. Show how you collected data and the outcomes.
+1. Show how you collected data and the outcomes.
    https://drive.google.com/file/d/1sBtBPzMcQdFjIWptJwjKo2hV8Ke32LXs/view?usp=sharing
-We are able to print the IMU accelerometer and gyroscope values onto the serial monitor, and based on how we change the physical orientation of the IMU, we can observe the values changing accordingly. (shown during demo)
-   
-5. Have you achieved some or all of your Hardware Requirements Specification (HRS)?
+   We are able to print the IMU accelerometer and gyroscope values onto the serial monitor, and based on how we change the physical orientation of the IMU, we can observe the values changing accordingly. (shown during demo)
+2. Have you achieved some or all of your Hardware Requirements Specification (HRS)?
 
 HRS-02: The IMU sends accurate data that reflects our visual observations of the gyroscope. When we move the IMU around, the values change accordingly.
 
@@ -170,16 +170,17 @@ HRS-03: The motor driver, when last tested, was sending proper outputs to drive 
 
 HRS-05: Our boost converter modules successfully output 5.2V to power our system.
 
-   1. Show how you collected data and the outcomes.
-      https://drive.google.com/file/d/1sBtBPzMcQdFjIWptJwjKo2hV8Ke32LXs/view?usp=sharing
-6. Show off the remaining elements that will make your project whole: mechanical casework, supporting graphical user interface (GUI), web portal, etc.
-Our robot is mechanically complete, as shown durng the demo, and the motors are responding based on the IMU values. We just need to tune the PID constants to allow the robot to balance itself.
-7. What is the riskiest part remaining of your project?
-The only part left of our project is to tune the PID constants until the robot is hopefully able to balance itself upright. The riskiest part of our project is that we aren't sure how difficult/time-consuming this process will be, and that we don't want to damage our components and structure during this process.
+1. Show how you collected data and the outcomes.
+   https://drive.google.com/file/d/1sBtBPzMcQdFjIWptJwjKo2hV8Ke32LXs/view?usp=sharing
+2. Show off the remaining elements that will make your project whole: mechanical casework, supporting graphical user interface (GUI), web portal, etc.
+   Our robot is mechanically complete, as shown durng the demo, and the motors are responding based on the IMU values. We just need to tune the PID constants to allow the robot to balance itself.
+3. What is the riskiest part remaining of your project?
+   The only part left of our project is to tune the PID constants until the robot is hopefully able to balance itself upright. The riskiest part of our project is that we aren't sure how difficult/time-consuming this process will be, and that we don't want to damage our components and structure during this process.
    1. How do you plan to de-risk this?
-   We can't do much about the PID tuning process, but we'll try to be careful about testing the balancing functionality by putting foam/bubble wrap around the robot as we let it balance/fall.
-8. What questions or help do you need from the teaching team?
-n/a
+      We can't do much about the PID tuning process, but we'll try to be careful about testing the balancing functionality by putting foam/bubble wrap around the robot as we let it balance/fall.
+4. What questions or help do you need from the teaching team?
+   n/a
+
 ## Final Project Report
 
 Don't forget to make the GitHub pages public website!
