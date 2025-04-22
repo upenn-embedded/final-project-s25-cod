@@ -14,11 +14,12 @@
 //#define R_MOTOR_PWM PD5 // 0C0B
 //
 //// Bench joystock debugging
-//#define JOY PC3
+
+#define MAX_SPEED 255
 
 void driveMotor(int16_t speed) {
-    if (speed > 255) speed = 255;
-    if (speed < -255) speed = -255;
+    if (speed > MAX_SPEED) speed = MAX_SPEED;
+    if (speed < -MAX_SPEED) speed = -MAX_SPEED;
     
     if (speed >= 0) {
         // We are operating in slow decay

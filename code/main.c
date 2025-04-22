@@ -19,9 +19,9 @@
 #define SAMPLE_TIME 0.005
 #define TARGET_ANGLE 0.0
 
-#define Kp  10
-#define Kd  0
-#define Ki  0
+#define Kp  60
+#define Kd  0.06
+#define Ki  75
 
 // Motor A Pins (Timer0)
 //#define L_MOTOR_DIR PD3 // High is forward, low is backward
