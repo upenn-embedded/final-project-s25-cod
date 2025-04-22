@@ -144,7 +144,9 @@ Next week, we will work on integrating all of the components. This includes usin
 Our robot is powered by a LiFePO4 battery which we input to 2 boost converter modules. One module powers the ATMega328PB and the other provides power for the motor driver, which drives both the left and right motor. The IMU is powered by the AMMega328PB. 
    
 2. Explain your firmware implementation, including application logic and critical drivers you've written.
-Di
+
+Our I2C, IMU, and motor control libraries were explained during the demonstration and are uploaded to the repo. 
+
 3. Demo your device.
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
