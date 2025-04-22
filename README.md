@@ -140,22 +140,44 @@ Next week, we will work on integrating all of the components. This includes usin
 ## MVP Demo
 
 1. Show a system block diagram & explain the hardware implementation.
+   ![1745028090634](image/README/1745028090634.png)
+Our robot is powered by a LiFePO4 battery which we input to 2 boost converter modules. One module powers the ATMega328PB and the other provides power for the motor driver, which drives both the left and right motor. The IMU is powered by the AMMega328PB. 
+   
 2. Explain your firmware implementation, including application logic and critical drivers you've written.
+Di
 3. Demo your device.
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
+SRS-01: We can read accurate accelerometer and gyroscope values from the IMU using I2C, as well as print the values to the serial monitor.
+
+SRS-02: We can see the movement of the wheels adjusting based on the physical angling of the gyroscope, but the robot does not self-balance yet. We’re still looking into why our two motors appear to be drawing different amounts of power.
+
+SRS-03: We can drive the motors at different speeds and change the direction of spinning with the motor driver.
+
+SRS-04: Our PID control loop was successfully implemented using timers, feedbacks, and interrupts, and we can see the movement of the wheels adjusting based on the physical angling of the gyroscope.
+
    1. Show how you collected data and the outcomes.
+   https://drive.google.com/file/d/1sBtBPzMcQdFjIWptJwjKo2hV8Ke32LXs/view?usp=sharing
+We are able to print the IMU accelerometer and gyroscope values onto the serial monitor, and based on how we change the physical orientation of the IMU, we can observe the values changing accordingly. (shown during demo)
+   
 5. Have you achieved some or all of your Hardware Requirements Specification (HRS)?
 
+HRS-02: The IMU sends accurate data that reflects our visual observations of the gyroscope. When we move the IMU around, the values change accordingly.
+
+HRS-03: The motor driver, when last tested, was sending proper outputs to drive each motor.
+
+HRS-05: Our boost converter modules successfully output 5.2V to power our system.
+
    1. Show how you collected data and the outcomes.
+      https://drive.google.com/file/d/1sBtBPzMcQdFjIWptJwjKo2hV8Ke32LXs/view?usp=sharing
 6. Show off the remaining elements that will make your project whole: mechanical casework, supporting graphical user interface (GUI), web portal, etc.
+Our robot is mechanically complete, as shown durng the demo, and the motors are responding based on the IMU values. We just need to tune the PID constants to allow the robot to balance itself.
 7. What is the riskiest part remaining of your project?
-
+The only part left of our project is to tune the PID constants until the robot is hopefully able to balance itself upright. The riskiest part of our project is that we aren't sure how difficult/time-consuming this process will be, and that we don't want to damage our components and structure during this process.
    1. How do you plan to de-risk this?
+   We can't do much about the PID tuning process, but we'll try to be careful about testing the balancing functionality by putting foam/bubble wrap around the robot as we let it balance/fall.
 8. What questions or help do you need from the teaching team?
-
-![1745028090634](image/README/1745028090634.png)
-
+n/a
 ## Final Project Report
 
 Don't forget to make the GitHub pages public website!
