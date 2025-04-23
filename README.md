@@ -28,11 +28,15 @@ What makes this project particularly interesting is the opportunity to apply the
 
 *Show your high level design, as done in WS1 and WS2. What are the critical components in your system? How do they communicate (I2C?, interrupts, ADC, etc.)? What power regulation do you need?*
 
+![1745028090634](https://file+.vscode-resource.vscode-cdn.net/Users/oscarqu/Downloads/School/Sophomore%20Spring/ESE%203500/final-project-s25-cod/image/README/1745028090634.png)
+
 ### 4. Design Sketches
 
 *What will your project look like? Do you have any critical design features? Will you need any special manufacturing techniques to achieve your vision, like power tools, laser cutting, or 3D printing?*
 
 We want to laser cut some pieces to enclose the boards and circuitry. For our circuitry, we'll have a couple of perf boards stacked on top of each other with spacers separating them. Other than that, we won't need any special manufacturing techniques.
+
+![1745427146172](image/README/1745427146172.png)
 
 ### 5. Software Requirements Specification (SRS)
 
@@ -46,12 +50,12 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **5.2 Functionality**
 
-| ID     | Description |
-| ------ | ----------- |
-| SRS-01 |             |
-| SRS-02 |             |
-| SRS-03 |             |
-| SRS-04 |             |
+| ID     | Description                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SRS-01 | The IMU should be able to read the gyroscope and accelerometer data, and asa peripheral, send the information via I2C to the MCU. This functionality can betested using the logic analyzer, as the IMU I2C data can be probed using abreadboard. We can also verify that the MCU is able to read and use the databy writing to a serial monitor using the MCU, and seeing that the data iscorrect and accurate.                   |
+| SRS-02 | We are using a PID control algorithm to keep our robot stable. This will beharder to test until the final robot is assembled, but we can do somefunctionality testing by inputting values to our algorithm and seeing how thefeedback loop responds.                                                                                                                                                                              |
+| SRS-03 | The motor controller can be tested because it will be outputting a PWM signalto control the DC motors. We can test this functionality by configuring to writedifferent speeds or control signals to the DC motor and seeing how itresponds. We can also test that the motor controller receives the right signalby probing it from the MCU output.                                                                                |
+| SRS-04 | Timers, feedback, interrupts: we will be configuring a pid control loop whichwill require a lot of accurate timing, calculations, and measurements, so it willbe necessary to make sure that the data being stored isn't lost and we areusing the proper timers to allow our robot to function properly. This willultimately be tested to see if our feedback loop is able to spin the wheelsproperlya ccording to the IMU input. |
 
 ### 6. Hardware Requirements Specification (HRS)
 
@@ -61,18 +65,19 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 
 **6.1 Definitions, Abbreviations**
 
-Here, you will define any special terms, acronyms, or abbreviations you plan to use for hardware
+MCU - microcontroller unit
+
+IMU - inertial measurement unit
 
 **6.2 Functionality**
 
-| ID     | Description                                                                                                                        |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| HRS-01 | A distance sensor shall be used for obstacle detection. The sensor shall detect obstacles at a maximum distance of at least 10 cm. |
-| HRS-02 | A noisemaker shall be inside the trap with a strength of at least 55 dB.                                                           |
-| HRS-03 | An electronic motor shall be used to reset the trap remotely and have a torque of 40 Nm in order to reset the trap mechanism.      |
-| HRS-04 | A camera sensor shall be used to capture images of the trap interior. The resolution shall be at least 480p.                       |
-
-### 7. Bill of Materials (BOM)
+| ID     | Description                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| HRS-01 | The MCU should be able to accurately read inputs and send proper outputs inthe right time frame. The inputs involve measurements from our IMU, and theoutputs involve interfacing with our motor driver. Given these inputs andoutputs, the MCU has to process everything quickly enough to keep the robotupright. The final way to test this functionality will be when all components areassembled with the robot. |
+| HRS-02 | The IMU shall provide accurate accelerometer and gyroscope data. This canbe measured during testing by connecting the IMU to the MCU, moving thesensor around and seeing if the right measurements are being read and thatthey are also being received by the MCU.                                                                                                                                                   |
+| HRS-03 | The motor driver shall be able to properly receive input signals from the MCUand send the right amount of torque to the motors. If done incorrectly, therobot will not be able to self-balance. This can be tested in conjunction withthe MCU, motor driver, and motors to see if the MCU is able to control themotor speed through the driver.                                                                      |
+| HRS-04 | The motors shall be able to accurately and precisely respond to input andoutput the right amount of torque or move the robot forwards and backwardsthe right amount. This can be tested off the bench by testing if the motor drivercan drive the motors under different conditions, and using it to tune ourcode.7. Bill of Materials (BOM)7. Bill of Materials (BOM)                                               |
+| HRS-05 | The boost converter will be used to step up the battery voltage to 5V whichwill be used to power the other components which require 5V of input power.This can be tested on the bench by inputting the battery voltage using thepower supply and measuring the output of the boost converter.                                                                                                                        |
 
 *What major components do you need and why? Try to be as specific as possible. Your Hardware & Software Requirements Specifications should inform your component choices.*
 
@@ -146,7 +151,7 @@ Next week, we will work on integrating all of the components. This includes usin
 
 Our I2C, IMU, and motor control libraries were explained during the demonstration and are uploaded to the repo.
 
-We use the IMU to measure the tilt angle of the robot. This is done by computing the angle separately using the acclerometer and gyroscope, then combining the two angles with a complementary filter. The filter consists of a high pass for the gyroscope (since the gyroscope readings drift over time), and a low pass for the accelerometer (since the accelerometer reads are affected by lateral movements). Then, we use the current angle and compare it to the target angle in our PID loop, which determines the power supplied to the motors. We have written code for our I2C communication, IMU (to get data from registers), and our central PID loop, which updates at a rate of 200 Hz. 
+We use the IMU to measure the tilt angle of the robot. This is done by computing the angle separately using the acclerometer and gyroscope, then combining the two angles with a complementary filter. The filter consists of a high pass for the gyroscope (since the gyroscope readings drift over time), and a low pass for the accelerometer (since the accelerometer reads are affected by lateral movements). Then, we use the current angle and compare it to the target angle in our PID loop, which determines the power supplied to the motors. We have written code for our I2C communication, IMU (to get data from registers), and our central PID loop, which updates at a rate of 200 Hz.
 
 3. Demo your device.
 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
